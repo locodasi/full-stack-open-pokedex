@@ -5,6 +5,7 @@ module.exports = {
     'es6': true,
     'jest/globals': true
   },
+  'ignorePatterns': ['dist/'],
   'extends': [
     'eslint:recommended',
     'plugin:react/recommended'
