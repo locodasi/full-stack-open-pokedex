@@ -8,6 +8,8 @@ const PORT = process.env.PORT || 5000
 
 app.use(express.static('dist'))
 
+console.log()
+
 app.get('/version', (req, res) => {
   res.send('10') // change this string to ensure a new version deployed
 })
