@@ -39,6 +39,14 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
+      - name: Check commit messages for #skip
+        env:
+          COMMIT_MESSAGES: ${{ toJson(github.event.commits.*.message) }}
+        run: |
+          if echo "$COMMIT_MESSAGES" | grep -q "#skip"; then
+            echo "Skipping tag release step"
+            exit 78  # exit with a neutral status to indicate skipping
+          fi
       - name: Bump version and push tag
         if: ${{ github.event_name == 'push' }}
         uses: anothrNick/github-tag-action@1.67.0
