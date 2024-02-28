@@ -18,6 +18,8 @@ jobs:
           node-version: '20'
       - name: Install dependencies
         run: npm install
+      - name: a
+        run: echo "${{github.event}}"
       - name: Check style
         run: npm run eslint
       - name: build
@@ -53,7 +55,7 @@ jobs:
           severity: error
           color: '#ff0000'
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
-          avatarUrl: $B
+          avatarUrl: ${{ github.event.sender.avatar_url }}
           description: commit ${{ github.event.head_commit.url }} by ${{ github.event.head_commit.author.username }} broke the build :(
           details: ''
           text: Build failed
