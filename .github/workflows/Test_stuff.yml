@@ -22,7 +22,7 @@ jobs:
         env:
           COMMIT_MESSAGES: ${{ toJson(github.event.commits.*.message) }}
         run: echo "$COMMIT_MESSAGES"
-      -name: Test de saltear
+      - name: Test de saltear
         env:
           COMMIT_MESSAGES: ${{ toJson(github.event.commits.*.message) }}
         if: '!contains(env.COMMIT_MESSAGES, "#skip")'
