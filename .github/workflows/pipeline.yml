@@ -33,6 +33,27 @@ jobs:
       - name: Trigger deployment
         if: ${{ github.event_name == 'push' }}
         run: curl https://api.render.com/deploy/srv-${{ secrets.RENDER_SERVICE_ID }}?key=${{ secrets.RENDER_API_KEY }}
+      - name: Deployment success
+        if: ${{ success() }}
+        uses: rjstone/discord-webhook-notify@v1
+        with:
+          severity: info
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+          avatarUrl: ${{ github.event.sender.avatar_url }}
+          description: to https://full-stack-open-pokedex-objh.onrender.com by ${{ github.event.head_commit.author.username }}
+          details: ''
+          text: A new version of Pokedex deployed
+      - name: Deployment failure
+        if: ${{ failure() }}
+        uses: rjstone/discord-webhook-notify@v1
+        with:
+          severity: error
+          color: '#ff0000'
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+          avatarUrl: ${{ github.event.sender.avatar_url }}
+          description: commit ${{ github.event.head_commit.url }} by ${{ github.event.head_commit.author.username }} broke the build :(
+          details: ''
+          text: Build failed
       
   tag_release:
     needs: [simple_deployment_pipeline]
@@ -53,27 +74,3 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DEFAULT_BUMP: patch 
-  notify: 
-    needs: [simple_deployment_pipeline, tag_release]
-    runs-on: ubuntu-20.04
-    steps:
-      - name: Test Success
-        - uses: rjstone/discord-webhook-notify@v1.0.4
-          if: success()
-          with:
-            text: A new version of Pokedex deploy
-            description: to https://full-stack-open-pokedex-objh.onrender.com by locodasi
-            severity: info
-            webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
-      - name: Test Failure
-        - uses: rjstone/discord-webhook-notify@v1.0.4
-          if: failure()
-          env:
-            COMMIT_SHA: ${{ github.sha }}
-            REPO_OWNER: ${{ github.repository_owner }}
-            REPO_NAME: ${{ github.repository }}
-          with:
-            description: "Commit [$COMMIT_SHA](https://github.com/$REPO_OWNER/$REPO_NAME/commit/$COMMIT_SHA) by locodasi broke the build :("
-            text: Build failed
-            severity: error
-            webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
