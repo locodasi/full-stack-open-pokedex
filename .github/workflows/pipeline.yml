@@ -19,7 +19,7 @@ jobs:
       - name: Install dependencies
         run: npm install
       - name: a
-        run: echo "${{github.event}}"
+        run: echo "${{toJson(github.event)}}"
       - name: Check style
         run: npm run eslint
       - name: build
