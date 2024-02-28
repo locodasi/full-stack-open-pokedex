@@ -53,11 +53,10 @@ jobs:
           severity: error
           color: '#ff0000'
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
-          avatarUrl: ${{ github.event.sender.avatar_url }}
+          avatarUrl: $B
           description: commit ${{ github.event.head_commit.url }} by ${{ github.event.head_commit.author.username }} broke the build :(
           details: ''
           text: Build failed
-        run: echo "$AAAA y $B"
         
   tag_release:
     needs: [simple_deployment_pipeline]
