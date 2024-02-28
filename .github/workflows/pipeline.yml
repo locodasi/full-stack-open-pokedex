@@ -1,9 +1,6 @@
 name: Deployment pipeline
 
 on:
-  push:
-    branches:
-      - main
   pull_request:
     branches: [main]
     types: [opened, synchronize]
@@ -45,7 +42,7 @@ jobs:
         run: |
           if echo "$COMMIT_MESSAGES" | grep -q "#skip"; then
             echo "Skipping tag release step"
-            exit 78  # exit with a neutral status to indicate skipping
+            exit 1  # exit with a neutral status to indicate skipping
           fi
       - name: Bump version and push tag
         if: ${{ github.event_name == 'push' }}
