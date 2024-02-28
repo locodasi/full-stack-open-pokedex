@@ -20,11 +20,11 @@ jobs:
         run: npm install
       - name: a
         env:
-          COMMITS: ${{ toJson(github.event) }}
+          COMMITS: ${{ toJson(github.event.pull_request) }}
         run: echo "$COMMITS"
       - name: b
         env:
-          COMMITS: ${{ toJson(github.event.head_commit) }}
+          COMMITS: ${{ toJson(github.event.pull_request.base) }}
         run: |
           echo "$COMMITS"
           echo "${{ github.event_name}}"
