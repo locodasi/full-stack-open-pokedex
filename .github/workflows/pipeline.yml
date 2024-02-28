@@ -34,13 +34,13 @@ jobs:
         if: ${{ github.event_name == 'push' }}
         run: curl https://api.render.com/deploy/srv-${{ secrets.RENDER_SERVICE_ID }}?key=${{ secrets.RENDER_API_KEY }}
       - name: Deployment success
-        if: ${{ success() }}
+        if: ${{ success() && github.event_name == 'push' }}
         uses: rjstone/discord-webhook-notify@v1
         with:
           severity: info
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
           avatarUrl: ${{ github.event.sender.avatar_url }}
-          description: to https://full-stack-open-pokedex-objh.onrender.com by ${{ github.event.pull_request.base.user.login }}
+          description: to https://full-stack-open-pokedex-objh.onrender.com by ${{ github.event.head_commit.author.username }}
           details: ''
           text: A new version of Pokedex deployed
       - name: Deployment failure
