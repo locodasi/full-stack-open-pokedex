@@ -20,7 +20,11 @@ jobs:
         run: npm install
       - name: a
         env:
-          COMMITS: ${{ toJson(github.event) }}
+          COMMITS: ${{ toJson(github.event.sender) }}
+        run: echo "$COMMITS"
+      - name: b
+        env:
+          COMMITS: ${{ toJson(github.event.head_commit) }}
         run: echo "$COMMITS"
       - name: Check style
         run: npm run eslint
