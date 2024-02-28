@@ -53,28 +53,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DEFAULT_BUMP: patch 
-  notify: 
-    needs: [tag_release]
-    runs-on: ubuntu-20.04
-    steps:
-      - name: Test Success
-        uses: rjstone/discord-webhook-notify@v1.0.4
-        if: success()
-        with:
-            text: A new version of Pokedex deploy
-            description: to https://full-stack-open-pokedex-objh.onrender.com by locodasi
-            severity: info
-            webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
-      - name: Test Failure
-        - uses: rjstone/discord-webhook-notify@v1.0.4
-          if: failure()
-          env:
-            COMMIT_SHA: ${{ github.sha }}
-            REPO_OWNER: ${{ github.repository_owner }}
-            REPO_NAME: ${{ github.repository }}
-          uses: rjstone/discord-webhook-notify@v1.0.4
-          with:
-            description: "Commit [$COMMIT_SHA](https://github.com/$REPO_OWNER/$REPO_NAME/commit/$COMMIT_SHA) by locodasi broke the build :("
-              text: Build failed
-              severity: error
-              webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+
