@@ -50,7 +50,7 @@ jobs:
           severity: info
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
           avatarUrl: ${{ github.event.sender.avatar_url }}
-          description: to https://full-stack-open-pokedex-objh.onrender.com by ${{ github.event.user.login }}
+          description: to https://full-stack-open-pokedex-objh.onrender.com by ${{ github.event.pull_request.base.user.login }}
           details: ''
           text: A new version of Pokedex deployed
       - name: Deployment failure
@@ -63,7 +63,7 @@ jobs:
           color: '#ff0000'
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
           avatarUrl: ${{ github.event.sender.avatar_url }}
-          description: commit https://github.com/locodasi/full-stack-open-pokedex/commit/${{ github.event.sha }} by ${{ github.event.user.login }} broke the build :(
+          description: commit https://github.com/locodasi/full-stack-open-pokedex/commit/${{ github.event.pull_request.base.sha }} by ${{ github.event.pull_request.base.user.login }} broke the build :(
           details: ''
           text: Build failed
         
