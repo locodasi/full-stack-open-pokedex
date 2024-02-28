@@ -31,3 +31,13 @@ jobs:
           else
             echo "Executing step"
           fi
+      - name: Test de saltear V2
+        env:
+          COMMIT_MESSAGES: ${{ toJson(github.event.commits.*.message) }}
+        if: echo "$COMMIT_MESSAGES" | grep -q "#skip"
+        run: echo "S"
+      - name: Test de saltear V3
+        env:
+          COMMIT_MESSAGES: ${{ toJson(github.event.commits.*.message) }}
+        if: {{ COMMIT_MESSAGES | grep -q "#skip" }}
+        run: echo "S"
