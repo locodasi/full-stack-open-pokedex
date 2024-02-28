@@ -20,7 +20,7 @@ jobs:
         run: npm install
       - name: a
         env:
-          COMMITS: ${{ toJson(github.event.sender) }}
+          COMMITS: ${{ toJson(github.event) }}
         run: echo "$COMMITS"
       - name: b
         env:
@@ -56,7 +56,6 @@ jobs:
         uses: rjstone/discord-webhook-notify@v1
         env:
           AAAA: ${{ toJson(github.event) }}
-          B: ${{ toJson(github.event.sender.avatar_url) }}
         with:
           severity: error
           color: '#ff0000'
